@@ -15,7 +15,7 @@ CURRENT_USER=$USER
 
 BASE_DIR="/data/coolify"
 
-if [ "$OS_TYPE" = "darwin" ]; then
+if [ "$OSTYPE" = "darwin" ]; then
   BASE_DIR="$HOME/coolify_data"
   echo "Running on macOS"
 fi
@@ -24,7 +24,11 @@ mkdir -p $BASE_DIR/{source,ssh,applications,databases,backups,services,proxy,web
 mkdir -p $BASE_DIR/ssh/{keys,mux}
 mkdir -p $BASE_DIR/proxy/dynamic
 
-chown -R 9999:root $BASE_DIR
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  chown -R $(whoami):staff $BASE_DIR
+else
+  chown -R 9999:root $BASE_DIR
+fi
 chmod -R 700 $BASE_DIR
 
 INSTALLATION_LOG_WITH_DATE="$BASE_DIR/source/installation-${DATE}.log"
@@ -39,7 +43,7 @@ getAJoke() {
     fi
 }
 OS_TYPE=$(grep -w "ID" /etc/os-release | cut -d "=" -f 2 | tr -d '"')
-ENV_FILE="/data/coolify/source/.env"
+ENV_FILE="$BASE_DIR/source/.env"
 
 # Check if the OS is manjaro, if so, change it to arch
 if [ "$OS_TYPE" = "manjaro" ] || [ "$OS_TYPE" = "manjaro-arm" ]; then
