@@ -492,7 +492,12 @@ set -e
 if [ "$IS_COOLIFY_VOLUME_EXISTS" -eq 0 ]; then
     echo " - Generating SSH key."
     ssh-keygen -t ed25519 -a 100 -f $BASE_DIR/ssh/keys/id.$CURRENT_USER@host.docker.internal -q -N "" -C coolify
+    if [ "$OS_TYPE" != "darwin" ]; then
     chown 9999 $BASE_DIR/ssh/keys/id.$CURRENT_USER@host.docker.internal
+else
+    echo "Chown skipped for macOS during SSH key handling."
+fi
+
     sed -i "/coolify/d" ~/.ssh/authorized_keys
     cat $BASE_DIR/ssh/keys/id.$CURRENT_USER@host.docker.internal.pub >> ~/.ssh/authorized_keys
     rm -f $BASE_DIR/ssh/keys/id.$CURRENT_USER@host.docker.internal.pub
