@@ -113,9 +113,9 @@ if [ $EUID != 0 ]; then
 fi
 
 case "$OS_TYPE" in
-arch | ubuntu | debian | raspbian | centos | fedora | rhel | ol | rocky | sles | opensuse-leap | opensuse-tumbleweed | almalinux | amzn | alpine) ;;
+arch | ubuntu | debian | raspbian | centos | fedora | rhel | ol | rocky | sles | opensuse-leap | opensuse-tumbleweed | almalinux | amzn | alpine | darwin) ;;
 *)
-    echo "This script only supports Debian, Redhat, Arch Linux, Alpine Linux, or SLES based operating systems for now."
+    echo "This script only supports Debian, Redhat, Arch Linux, Alpine Linux, SLES, or Darwin (macOS) based operating systems for now."
     exit
     ;;
 esac
