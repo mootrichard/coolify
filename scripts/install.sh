@@ -19,11 +19,13 @@ DOCKER_VERSION="26.0"
 # TODO: Ask for a user
 CURRENT_USER=$USER
 
+BASE_DIR="/data/coolify"
+
 if [ "$OS_TYPE" = "darwin" ]; then
-    BASE_DIR="$HOME/data/coolify"
-else
-    BASE_DIR="/data/coolify"
+  BASE_DIR="$HOME/coolify_data"
+  echo "Running on macOS"
 fi
+
 mkdir -p $BASE_DIR/{source,ssh,applications,databases,backups,services,proxy,webhooks-during-maintenance,sentinel}
 mkdir -p /data/coolify/ssh/{keys,mux}
 mkdir -p /data/coolify/proxy/dynamic
