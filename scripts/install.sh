@@ -78,8 +78,15 @@ fi
 
 if [ "$OS_TYPE" = "arch" ] || [ "$OS_TYPE" = "archarm" ]; then
     OS_VERSION="rolling"
+elif [[ "$OSTYPE" == *"darwin"* ]]; then
+    OS_VERSION=$(sw_vers -productVersion)
 else
-    OS_VERSION=$(grep -w "VERSION_ID" /etc/os-release | cut -d "=" -f 2 | tr -d '"')
+    if [[ -f /etc/os-release ]]; then
+        OS_VERSION=$(grep -w "VERSION_ID" /etc/os-release | cut -d "=" -f 2 | tr -d '"')
+    else
+        echo "Error: /etc/os-release not found. Unable to determine OS version."
+        exit 1
+    fi
 fi
 
 # Install xargs on Amazon Linux 2023 - lol
