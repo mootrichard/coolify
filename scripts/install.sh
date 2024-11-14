@@ -15,7 +15,7 @@ CURRENT_USER=$USER
 
 BASE_DIR="/data/coolify"
 
-if [ "$OSTYPE" = "darwin" ]; then
+if [ "$OSTYPE" == *"darwin"* ]; then
   BASE_DIR="$HOME/coolify_data"
   echo "Running on macOS"
 fi
