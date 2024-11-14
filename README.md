@@ -17,6 +17,30 @@ For more information, take a look at our landing page at [coolify.io](https://co
 
 # Installation
 
+## macOS Specific Instructions
+
+For users who wish to use macOS both as a host for Coolify and as a deployment server, please consider the following additional steps:
+
+- **Homebrew**: Ensure you have [Homebrew](https://brew.sh/) installed to facilitate package management. You can verify by running `brew --version` in your terminal. If not found, install it with:
+  ```
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  ```
+
+- **Docker Desktop**: macOS users should use [Docker Desktop](https://hub.docker.com/editions/community/docker-ce-desktop-mac) to manage Docker installations. This ensures that Docker runs with appropriate allowances in macOS networking.
+
+- **SSH Settings**: Ensure 'Remote Login' is enabled via System Preferences or run the following in terminal:
+  ```
+  sudo systemsetup -setremotelogin on
+  ```
+
+- **Path Adjustments**: macOS path environment conventions should be set in your shell profiles, typically found in `~/.bash_profile` or `~/.zshrc` with:
+  ```
+  export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+  ```
+
+Proceed with the regular installation process outlined below.
+
+
 ```bash
 curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
 ```

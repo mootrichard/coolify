@@ -385,9 +385,12 @@ mv "$TEMP_FILE" /etc/docker/daemon.json
 
 restart_docker_service() {
     # Check if systemctl is available
-    if command -v systemctl >/dev/null 2>&1; then
-        echo " - Using systemctl to restart Docker."
-        systemctl restart docker
+if [ "$OS_TYPE" = "darwin" ]; then
+    echo " - Using launchctl to restart Docker on macOS."
+    launchctl stop com.docker.docker && launchctl start com.docker.docker
+elif command -v systemctl >/dev/null 2>&1; then
+    echo " - Using systemctl to restart Docker."
+    systemctl restart docker
 
         if [ $? -eq 0 ]; then
             echo " - Docker restarted successfully using systemctl."
