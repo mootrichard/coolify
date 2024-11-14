@@ -1,4 +1,10 @@
 #!/bin/bash
+## macOS compatibility added
+OS_TYPE=$(uname -s | tr '[:upper:]' '[:lower:]')
+if [ "$OS_TYPE" = "darwin" ]; then
+    echo "Running on macOS"
+fi
+## End of macOS compatibility
 ## Do not modify this file. You will lose the ability to install and auto-update!
 
 set -e # Exit immediately if a command exits with a non-zero status
@@ -13,7 +19,12 @@ DOCKER_VERSION="26.0"
 # TODO: Ask for a user
 CURRENT_USER=$USER
 
-mkdir -p /data/coolify/{source,ssh,applications,databases,backups,services,proxy,webhooks-during-maintenance,sentinel}
+if [ "$OS_TYPE" = "darwin" ]; then
+    BASE_DIR="$HOME/data/coolify"
+else
+    BASE_DIR="/data/coolify"
+fi
+mkdir -p $BASE_DIR/{source,ssh,applications,databases,backups,services,proxy,webhooks-during-maintenance,sentinel}
 mkdir -p /data/coolify/ssh/{keys,mux}
 mkdir -p /data/coolify/proxy/dynamic
 
@@ -128,6 +139,13 @@ echo -e "---------------------------------------------\n"
 echo -e "1. Installing required packages (curl, wget, git, jq). "
 
 case "$OS_TYPE" in
+darwin)
+    if ! command -v brew &>/dev/null; then
+        echo "Homebrew not found. Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    fi
+    brew install curl wget git jq
+    ;;
 arch)
     pacman -Sy --noconfirm --needed curl wget git jq >/dev/null || true
     ;;
@@ -253,6 +271,15 @@ if [ -x "$(command -v snap)" ]; then
 fi
 
 echo -e "3. Check Docker Installation. "
+if [ "$OS_TYPE" = "darwin" ]; then
+    if ! [ -x "$(command -v docker)" ]; then
+        echo "Docker is not installed. Please install Docker Desktop for Mac before proceeding."
+        open https://docs.docker.com/docker-for-mac/install/
+        exit 1
+    fi
+    echo "Docker Desktop is installed."
+fi
+"
 if ! [ -x "$(command -v docker)" ]; then
     echo " - Docker is not installed. Installing Docker. It may take a while."
     getAJoke
