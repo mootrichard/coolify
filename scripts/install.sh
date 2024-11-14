@@ -42,7 +42,11 @@ getAJoke() {
         echo -e "$JOKES\n"
     fi
 }
-OS_TYPE=$(grep -w "ID" /etc/os-release | cut -d "=" -f 2 | tr -d '"')
+if [[ "$OSTYPE" == *"darwin"* ]]; then
+  OS_TYPE="darwin"
+else
+  OS_TYPE=$(grep -w "ID" /etc/os-release | cut -d "=" -f 2 | tr -d '"')
+fi
 ENV_FILE="$BASE_DIR/source/.env"
 
 # Check if the OS is manjaro, if so, change it to arch
