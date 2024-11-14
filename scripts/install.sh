@@ -45,7 +45,12 @@ getAJoke() {
 if [[ "$OSTYPE" == *"darwin"* ]]; then
   OS_TYPE="darwin"
 else
-  OS_TYPE=$(grep -w "ID" /etc/os-release | cut -d "=" -f 2 | tr -d '"')
+  if [[ -f /etc/os-release ]]; then
+    OS_TYPE=$(grep -w "ID" /etc/os-release | cut -d "=" -f 2 | tr -d '"')
+  else
+    echo "Error: /etc/os-release not found. Unable to determine OS type."
+    exit 1
+  fi
 fi
 ENV_FILE="$BASE_DIR/source/.env"
 
