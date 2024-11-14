@@ -498,8 +498,16 @@ if [ "$IS_COOLIFY_VOLUME_EXISTS" -eq 0 ]; then
     rm -f $BASE_DIR/ssh/keys/id.$CURRENT_USER@host.docker.internal.pub
 fi
 
-chown -R 9999:root $BASE_DIR
-chmod -R 700 $BASE_DIR
+case "$OS_TYPE" in
+darwin)
+    echo "Chown skipped for macOS."
+    chmod -R 700 $BASE_DIR
+    ;; 
+*)
+    chown -R 9999:root $BASE_DIR
+    chmod -R 700 $BASE_DIR
+    ;;
+esac
 
 echo -e "9. Installing Coolify ($LATEST_VERSION)"
 echo -e " - It could take a while based on your server's performance, network speed, stars, etc."
