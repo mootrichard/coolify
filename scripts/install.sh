@@ -24,7 +24,7 @@ mkdir -p $BASE_DIR/{source,ssh,applications,databases,backups,services,proxy,web
 mkdir -p $BASE_DIR/ssh/{keys,mux}
 mkdir -p $BASE_DIR/proxy/dynamic
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
+if [[ "$OSTYPE" == *"darwin"* ]]; then
   chown -R $(whoami):staff $BASE_DIR
 else
   chown -R 9999:root $BASE_DIR
