@@ -1,10 +1,4 @@
 #!/bin/bash
-## macOS compatibility added
-OS_TYPE=$(uname -s | tr '[:upper:]' '[:lower:]')
-if [ "$OS_TYPE" = "darwin" ]; then
-    echo "Running on macOS"
-fi
-## End of macOS compatibility
 ## Do not modify this file. You will lose the ability to install and auto-update!
 
 set -e # Exit immediately if a command exits with a non-zero status
@@ -507,7 +501,7 @@ case "$OS_TYPE" in
 darwin)
     echo "Chown skipped for macOS."
     chmod -R 700 $BASE_DIR
-    ;; 
+    ;;
 *)
     chown -R 9999:root $BASE_DIR
     chmod -R 700 $BASE_DIR
