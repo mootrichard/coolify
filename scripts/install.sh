@@ -42,6 +42,7 @@ getAJoke() {
         echo -e "$JOKES\n"
     fi
 }
+
 if [[ "$OSTYPE" == *"darwin"* ]]; then
   OS_TYPE="darwin"
 else
@@ -52,6 +53,7 @@ else
     exit 1
   fi
 fi
+
 ENV_FILE="$BASE_DIR/source/.env"
 
 # Check if the OS is manjaro, if so, change it to arch
