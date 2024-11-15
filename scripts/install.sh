@@ -360,7 +360,7 @@ if ! [ -x "$(command -v docker)" ]; then
             ;;
         *)
             if [ "$OS_TYPE" = "ubuntu" ] && [ "$OS_VERSION" = "24.10" ]; then
-                echo "Docker automated installation is not supported on Ubuntu 24.10 (non-LTS release)."
+                echo "Docker automated installation is not supported on Ubuntu 24.10 \(non-LTS release\)."
                     echo "Please install Docker manually."
                 exit 1
             fi
