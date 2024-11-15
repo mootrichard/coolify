@@ -382,7 +382,11 @@ else
 fi
 
 echo -e "4. Check Docker Configuration. "
-mkdir -p /etc/docker
+if [[ "$OSTYPE" == *"darwin"* ]]; then
+    sudo mkdir -p /etc/docker
+else
+    mkdir -p /etc/docker
+fi
 # shellcheck disable=SC2015
 test -s /etc/docker/daemon.json && cp /etc/docker/daemon.json /etc/docker/daemon.json.original-"$DATE" || cat >/etc/docker/daemon.json <<EOL
 {
