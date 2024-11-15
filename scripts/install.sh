@@ -544,8 +544,8 @@ darwin)
     ;;
 esac
 
-echo -e "9. Installing Coolify \($LATEST_VERSION\)"
-echo -e " - It could take a while based on your server\'s performance, network speed, stars, etc."
+echo -e "9. Installing Coolify (${LATEST_VERSION})"
+echo -e " - It could take a while based on your server's performance, network speed, stars, etc."
 echo -e " - Please wait."
 getAJoke
 
@@ -553,11 +553,11 @@ bash $BASE_DIR/source/upgrade.sh "${LATEST_VERSION:-latest}" "${LATEST_HELPER_VE
 echo " - Coolify installed successfully."
 rm -f $ENV_FILE-$DATE
 
-echo " - Waiting for 20 seconds for Coolify \(database migrations\) to be ready."
+echo " - Waiting for 20 seconds for Coolify (database migrations) to be ready."
 getAJoke
 
 sleep 20
-echo -e "Contratulations! Coolify has been installed successfully."
+echo -e "Congratulations! Coolify has been installed successfully."
 echo -e "\nYour instance is ready to use."
 echo -e "Please visit http://$(curl -4s https://ifconfig.io):8000 to get started.\n"
 echo -e "WARNING: We recommend you to backup your ${BASE_DIR}/source/.env file to a safe location, outside of this server."
