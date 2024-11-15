@@ -557,14 +557,7 @@ echo " - Waiting for 20 seconds for Coolify (database migrations) to be ready."
 getAJoke
 
 sleep 20
-echo -e "\033[0;35m
-   ____                            _         _       _   _                 _
-  / ___|___  _ __   __ _ _ __ __ _| |_ _   _| | __ _| |_(_) ___  _ __  ___| |
- | |   / _ \| '_ \ / _\` | '__/ _\` | __| | | | |/ _\` | __| |/ _ \| '_ \/ __| |
- | |__| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \__ \_|
-  \____\___/|_| |_|\__, |_|  \__,_|\__|\__,_|_|\__,_|\__|_|\___/|_| |_|___(_)
-                   |___/
-\033[0m"
+echo -e "Contratulations! Coolify has been installed successfully."
 echo -e "\nYour instance is ready to use."
 echo -e "Please visit http://$(curl -4s https://ifconfig.io):8000 to get started.\n"
 echo -e "WARNING: We recommend you to backup your /data/coolify/source/.env file to a safe location, outside of this server."
