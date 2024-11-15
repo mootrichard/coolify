@@ -560,5 +560,5 @@ sleep 20
 echo -e "Congratulations! Coolify has been installed successfully."
 echo -e "\nYour instance is ready to use."
 echo -e "Please visit http://$(curl -4s https://ifconfig.io):8000 to get started.\n"
-echo -e "WARNING: We recommend you to backup your ${BASE_DIR}/source/.env file to a safe location, outside of this server."
+echo -e "WARNING: We recommend you to backup your ${BASE_DIR}'/source/.env' file to a safe location, outside of this server."
 cp $BASE_DIR/source/.env $BASE_DIR/source/.env.backup
