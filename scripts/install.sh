@@ -107,9 +107,11 @@ if [ -z "$LATEST_REALTIME_VERSION" ]; then
 fi
 
 
-if [ $EUID != 0 ]; then
+if [[ "$OSTYPE" != *"darwin"* ]]; then
+  if [ $EUID != 0 ]; then
     echo "Please run as root"
     exit
+  fi
 fi
 
 case "$OS_TYPE" in
