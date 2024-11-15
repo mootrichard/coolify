@@ -374,6 +374,7 @@ if ! [ -x "$(command -v docker)" ]; then
                     exit 1
                 fi
             fi
+            ;;
     esac
     echo " - Docker installed successfully."
 else
