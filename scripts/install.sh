@@ -544,7 +544,7 @@ darwin)
     ;;
 esac
 
-echo -e "9. Installing Coolify ($LATEST_VERSION)"
+echo -e "9. Installing Coolify \($LATEST_VERSION\)"
 echo -e " - It could take a while based on your server's performance, network speed, stars, etc."
 echo -e " - Please wait."
 getAJoke
