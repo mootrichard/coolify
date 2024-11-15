@@ -201,7 +201,12 @@ echo -e "2. Check OpenSSH server configuration. "
 
 # Detect OpenSSH server
 SSH_DETECTED=false
-if [ -x "$(command -v systemctl)" ]; then
+if [[ "$OSTYPE" == *"darwin"* ]]; then
+    if launchctl list | grep -q com.openssh.sshd; then
+        echo " - OpenSSH server is installed."
+        SSH_DETECTED=true
+    fi
+elif [ -x "$(command -v systemctl)" ]; then
     if systemctl status sshd >/dev/null 2>&1; then
         echo " - OpenSSH server is installed."
         SSH_DETECTED=true
@@ -223,6 +228,12 @@ fi
 if [ "$SSH_DETECTED" = "false" ]; then
     echo " - OpenSSH server not detected. Installing OpenSSH server."
     case "$OS_TYPE" in
+    darwin)
+        echo " - OpenSSH server should be installed by default on macOS."
+        echo " - Please ensure it is enabled and running."
+        sudo systemsetup -setremotelogin on
+        sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+        ;;
     arch)
         pacman -Sy --noconfirm openssh >/dev/null
         systemctl enable sshd >/dev/null 2>&1
@@ -266,7 +277,12 @@ if [ "$SSH_DETECTED" = "false" ]; then
 fi
 
 # Detect SSH PermitRootLogin
-SSH_PERMIT_ROOT_LOGIN=$(sshd -T | grep -i "permitrootlogin" | awk '{print $2}') || true
+if [[ "$OSTYPE" == *"darwin"* ]]; then
+    SSH_PERMIT_ROOT_LOGIN=$(sudo sshd -T | grep -i "permitrootlogin" | awk '{print $2}') || true
+else
+    SSH_PERMIT_ROOT_LOGIN=$(sshd -T | grep -i "permitrootlogin" | awk '{print $2}') || true
+fi
+
 if [ "$SSH_PERMIT_ROOT_LOGIN" = "yes" ] || [ "$SSH_PERMIT_ROOT_LOGIN" = "without-password" ] || [ "$SSH_PERMIT_ROOT_LOGIN" = "prohibit-password" ]; then
     echo " - SSH PermitRootLogin is enabled."
 else
@@ -286,7 +302,7 @@ if [ -x "$(command -v snap)" ]; then
 fi
 
 echo -e "3. Check Docker Installation. "
-if [ "$OS_TYPE" = "darwin" ]; then
+if [[ "$OSTYPE" == *"darwin"* ]]; then
     if ! [ -x "$(command -v docker)" ]; then
         echo "Docker is not installed. Please install Docker Desktop for Mac before proceeding."
         open https://docs.docker.com/docker-for-mac/install/
@@ -400,7 +416,7 @@ mv "$TEMP_FILE" /etc/docker/daemon.json
 
 restart_docker_service() {
     # Check if systemctl is available
-if [ "$OS_TYPE" = "darwin" ]; then
+if [[ "$OSTYPE" == *"darwin"* ]]; then
     echo " - Using launchctl to restart Docker on macOS."
     launchctl stop com.docker.docker && launchctl start com.docker.docker
 elif command -v systemctl >/dev/null 2>&1; then
@@ -505,7 +521,7 @@ set -e
 if [ "$IS_COOLIFY_VOLUME_EXISTS" -eq 0 ]; then
     echo " - Generating SSH key."
     ssh-keygen -t ed25519 -a 100 -f $BASE_DIR/ssh/keys/id.$CURRENT_USER@host.docker.internal -q -N "" -C coolify
-    if [ "$OS_TYPE" != "darwin" ]; then
+    if [[ "$OSTYPE" == *"darwin"* ]]; then
     chown 9999 $BASE_DIR/ssh/keys/id.$CURRENT_USER@host.docker.internal
 else
     echo "Chown skipped for macOS during SSH key handling."
@@ -516,7 +532,7 @@ fi
     rm -f $BASE_DIR/ssh/keys/id.$CURRENT_USER@host.docker.internal.pub
 fi
 
-case "$OS_TYPE" in
+case "$OSTYPE" in
 darwin)
     echo "Chown skipped for macOS."
     chmod -R 700 $BASE_DIR
