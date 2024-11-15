@@ -553,7 +553,7 @@ bash $BASE_DIR/source/upgrade.sh "${LATEST_VERSION:-latest}" "${LATEST_HELPER_VE
 echo " - Coolify installed successfully."
 rm -f $ENV_FILE-$DATE
 
-echo " - Waiting for 20 seconds for Coolify (database migrations) to be ready."
+echo " - Waiting for 20 seconds for Coolify database migrations to be ready."
 getAJoke
 
 sleep 20
